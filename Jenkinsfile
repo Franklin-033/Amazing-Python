@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/simple-python-app.git'
+                git 'https://github.com/Franklin-033/Amazing-Python.git'
             }
         }
 
