@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install & Test') {
             steps {
-                sh 'python3 -m unittest discover'
+                sh 'python3 -m unittest discover Test'
             }
         }
 
