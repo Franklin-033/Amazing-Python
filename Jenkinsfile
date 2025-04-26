@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_SERVER = 'SonarQube'
-        
+        SONARQUBE_SERVER = 'SonarQube'  // Match name configured in Jenkins
     }
 
     stages {
@@ -13,7 +12,7 @@ pipeline {
             }
         }
 
-        stage('Install & Test') {
+        stage('Unit Test') {
             steps {
                 sh 'python3 -m unittest discover Test'
             }
@@ -21,22 +20,29 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-        withSonarQubeEnv("${SONARQUBE_SERVER}") {
-            sh '''
-                # Download sonar-scanner if not present
-                if ! [ -x "$(command -v sonar-scanner)" ]; then
-                  apt-get update && apt-get install -y unzip wget
-                  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-                  unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-                  export PATH=$PATH:$(pwd)/sonar-scanner-5.0.1.3006-linux/bin
-                fi
-
-                sonar-scanner
-            '''
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=amazing-python \
+                          -Dsonar.sources=. \
+                          -Dsonar.tests=Test \
+                          -Dsonar.test.inclusions=Test/*.py \
+                          -Dsonar.language=py \
+                          -Dsonar.sourceEncoding=UTF-8 \
+                          -Dsonar.host.url=$SONAR_HOST_URL \
+                          -Dsonar.login=$SONAR_AUTH_TOKEN
+                    '''
+                }
+            }
         }
-
-    }
-}
     }
 
+    post {
+        success {
+            echo "Build and SonarQube Analysis completed successfully 🎯"
+        }
+        failure {
+            echo "Something failed ❌. Check logs carefully."
+        }
+    }
 }
