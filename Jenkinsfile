@@ -17,23 +17,22 @@ pipeline {
                 sh 'python3 -m unittest discover Test'
             }
         }
-
+}
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh '''
-                        sonar-scanner \
-                          -Dsonar.projectKey=amazing-python \
-                          -Dsonar.sources=. \
-                          -Dsonar.tests=Test \
-                          -Dsonar.test.inclusions=Test/*.py \
-                          -Dsonar.language=py \
-                          -Dsonar.sourceEncoding=UTF-8 \
-                          -Dsonar.host.url=$SONAR_HOST_URL \
-                          -Dsonar.login=$SONAR_AUTH_TOKEN
-                    '''
-                }
-            }
+          steps {
+    withSonarQubeEnv('SonarQube') {
+        sh '''
+            ${scannerHome}/bin/sonar-scanner \
+              -Dsonar.projectKey=amazing-python \
+              -Dsonar.sources=. \
+              -Dsonar.tests=Test \
+              -Dsonar.test.inclusions=Test/*.py \
+              -Dsonar.language=py \
+              -Dsonar.sourceEncoding=UTF-8 \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.login=$SONAR_AUTH_TOKEN
+        '''
+    }
         }
     }
 
