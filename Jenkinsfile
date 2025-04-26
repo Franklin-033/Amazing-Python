@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         SONARQUBE_SERVER = 'SonarQube'
-        DOCKER_IMAGE = 'your-dockerhub-username/simple-python-app'
+        
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/simple-python-app.git'
+                git 'https://github.com/Franklin-033/Amazing-Python.git'
             }
         }
 
@@ -28,12 +28,5 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("${DOCKER_IMAGE}")
-                }
-            }
-        }
     }
 }
