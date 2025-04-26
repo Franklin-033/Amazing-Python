@@ -17,8 +17,8 @@ pipeline {
                 sh 'python3 -m unittest discover Test'
             }
         }
-}
-        stage('SonarQube Analysis') {
+
+    stage('SonarQube Analysis') {
           steps {
     withSonarQubeEnv('SonarQube') {
         sh '''
@@ -34,6 +34,7 @@ pipeline {
         '''
     }
         }
+    }
     }
 
     post {
