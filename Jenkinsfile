@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        SONARQUBE_SERVER = 'SonarQube'  // Match name configured in Jenkins
-    }
+  environment {
+    scannerHome = tool 'SonarQubeScanner'  // Use the name you defined
+}
 
     stages {
         stage('Checkout') {
