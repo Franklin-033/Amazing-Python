@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Building Docker Image..."
-                    docker build -t amazing-python-app:latest .
+                    docker build -t amazing-python-appq:latest .
                 '''
             }
         }
@@ -49,23 +49,15 @@ pipeline {
         stage('Docker Run') {
             steps {
                 sh '''
+                    withCredentials([usernamePassword(credentialsId: 'jenkins-doccker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')])
                     echo "Running Docker Container..."
-                    docker run --name aamazing-python-app -p 5000:5000 amazing-python-app
+                    docker run --name aamazing-python-app -p 5000:5000 amazing-python-appq
+                    echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                    docker tag amazing-python-appq:latest prasadm033/amazing-python-applatest
+                    docker push $DOCKERHUB_USER/amazing-python-appq:latest
                 '''
             }
         }
-
-        stage('Docker Push') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'jenkins-doccker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-            sh '''
-                echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
-                docker tag amazing-python-app:latest prasadm033/amazing-python-applatest
-                docker push $DOCKERHUB_USER/amazing-python-app:latest
-            '''
-        }
-    }
-}
 
     }
 
