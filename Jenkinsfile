@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Building Docker Image..."
-                    sudo docker build -t ${DOCKER_IMAGE} .
+                    docker build -t ${DOCKER_IMAGE} .
                 '''
             }
         }
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Running Docker Container..."
-                    sudo docker run -d --name amazing-python-container -p 5000:5000 ${DOCKER_IMAGE}
+                    docker run -d --name amazing-python-container -p 5000:5000 ${DOCKER_IMAGE}
                 '''
             }
         }
