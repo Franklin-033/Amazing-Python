@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     scannerHome = tool 'SonarQubeScanner'  // Use the name you defined
-    DOCKER_IMAGE = 'amazing-python-app-2023mcs320002pr' 
+    DOCKER_IMAGE = 'amazing-python-app-2023mcs320002pra' 
 }
 
     stages {
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Running Docker Container..."
-                    docker run --name amazing-python-app-2023mcs320002pr -p 5000:5000 ${DOCKER_IMAGE}
+                    docker run --name amazing-python-app-2023mcs320002pra -p 5000:5000 ${DOCKER_IMAGE}
                 '''
             }
         }
@@ -60,8 +60,8 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'jenkins-doccker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
             sh '''
                 echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
-                docker tag amazing-python-app:latest $DOCKERHUB_USER/amazing-python-app2023mcs320002pr:latest
-                docker push $DOCKERHUB_USER/amazing-python-app-2023mcs320002pr:latest
+                docker tag amazing-python-app-2023mcs320002pra:latest $DOCKERHUB_USER/amazing-python-app2023mcs320002pra:latest
+                docker push $DOCKERHUB_USER/amazing-python-app-2023mcs320002pra:latest
             '''
         }
     }
