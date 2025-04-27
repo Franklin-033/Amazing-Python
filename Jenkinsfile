@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     scannerHome = tool 'SonarQubeScanner'  // Use the name you defined
-    DOCKER_IMAGE = 'amazing-python-app-2023MCS320002' 
+    DOCKER_IMAGE = 'amazing-python-app-2023mcs320002' 
 }
 
     stages {
