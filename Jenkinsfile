@@ -50,7 +50,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Running Docker Container..."
-                    docker run -d --name amazing-python-container -p 5000:5000 ${DOCKER_IMAGE}
+                    docker run --name amazing-python-container -p 5000:5000 ${DOCKER_IMAGE}
                 '''
             }
         }
