@@ -35,6 +35,24 @@ pipeline {
     }
         }
     }
+
+          stage('Docker Build') {
+            steps {
+                sh '''
+                    echo "Building Docker Image..."
+                    docker build -t ${DOCKER_IMAGE} .
+                '''
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                sh '''
+                    echo "Running Docker Container..."
+                    docker run -d --name amazing-python-container -p 5000:5000 ${DOCKER_IMAGE}
+                '''
+            }
+        }
     }
 
     post {
